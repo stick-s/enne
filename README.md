@@ -1,6 +1,7 @@
 # Enne
 
-O Enne é um utilitário via linha de comando escrito em Python3. Sua função primordial é realizar o download de músicas a partir de vídeos do YouTube.
+O Enne é um utilitário via linha de comando escrito em Python3. Sua função primordial é realizar o download de músicas a partir de vídeos do YouTube.O programa está na sua inicial, então, muitos bugs e adaptações serão feitas no futuro. Espero contar com você para contribuir com o desenvolvimento desta ferramenta.
+
 
 ## INSTALAÇÃO
 
@@ -36,10 +37,6 @@ Aparecerá uma mensagem na tela: 'Onde deseja salvar a música?'
   Ex: Música   
 
 e você baixará a Free Software Song, música do movimento do software livre, no formato .mp3 na pasta Música.
-
-## CONSIDERAÇÕES
-
-O programa está na sua inicial, então, muitos bugs e adaptações serão feitas no futuro. Espero contar com você para contribuir com o desenvolvimento desta ferramenta.
 
 ## Observações finais
 
