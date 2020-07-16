@@ -46,7 +46,6 @@ e você baixará a Free Software Song(música do movimento do software livre) no
 
 ## ATUALIZAÇÕES PARA O FUTURO
 
-- Possuir um banco de bados próprio e simples.
 
 - Funções de busca direto do programa.
 
