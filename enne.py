@@ -10,6 +10,7 @@ class Download:
         self.video = pafy.new(self.url)
         self.arquivomp3 = ''
         self.pasta = ''
+
     def GoDownload(self):
         video = self.video
         try:
@@ -20,6 +21,14 @@ class Download:
             print("Download realizado com sucesso!")
         except:
             print("ERRO! Download não realizado")
+
+class Verifica:
+    def validadeurl(self,link):
+        if "https://www.youtube.com/" in link:
+            return True
+        else:
+            print(f"{link} não é link do youtube")
+            return False
 
 class Path:
     def __init__(self,url):
@@ -51,7 +60,13 @@ class DataBase:
         self.linksbaixados.write("{}-{}\n".format(str(self.video.title),self.url))
         self.linksbaixados.close()
 
-    def VerificaUrl(self):
+    def MostrarDados(self):
+        self.linksbaixados = open("baixados.txt")
+        bancodelinks = self.linksbaixados.read()
+        self.linksbaixados.close()
+        print(bancodelinks)
+
+    def VerificaUrlBd(self):
         with open("baixados.txt") as f:
             for verificar, linksbaixados in enumerate(f,1):
                 if self.url in linksbaixados:
@@ -60,30 +75,53 @@ class DataBase:
             else:
                 return False
 
-def finalizar():
-    print("Fechando programa")
-    for i in range(1,5):
-        print('. .', end=' ', flush=True)
-        sleep(1)
-    print("\n")
+class Operation:
+    def finalizar(self):
+        print("Fechando programa")
+        for i in range(1,5):
+            print('. .', end=' ', flush=True)
+            sleep(1)
+        print("\n")
+        sys.exit()
 
-link = sys.argv[1]
-while True:
-    d = Download(link)
-    p = Path(link)
-    db = DataBase(link)
-    if db.VerificaUrl() == False:
-        d.GoDownload()
-        db.BancoDeDownloads()
+    def menuhelp(self):
+        print("-b [Mostrar músicas baixadas]")
+
+    def repetir(self):
         repetição = input("Repetir processo de download? [S/N]: ")
         if repetição == ('n' or 'N'):
-            finalizar()
-            break
+            op.finalizar()
         elif repetição == ('s' or 'S'):
             link = input("Digite um link: ")
+            return link
         else:
             print("Falha em verificação")
             repetição = input("Repetir processo de download? [S/N]: ")
-    else:
-        finalizar()
-        break
+
+op = Operation()
+try:
+    arg = sys.argv[1]
+
+except IndexError:
+    print("Insira um link valido do YouTube como argumento.")
+    op.menuhelp()
+    op.finalizar()
+
+v = Verifica()
+
+if arg == '--help':
+    op.menuhelp()
+    op.finalizar()
+
+elif v.validadeurl(arg) == True:
+    while True:
+        d = Download(arg)
+        p = Path(arg)
+        db = DataBase(arg)
+        if db.VerificaUrlBd() == False:
+            d.GoDownload()
+            db.BancoDeDownloads()
+            op.repetir()
+
+else:
+    op.finalizar()
