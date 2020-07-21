@@ -3,7 +3,6 @@ Faça download de suas músicas direto pela linha de comando
 
 O enne é um utilitário via linha de comando escrito em Python3. Sua função primordial é realizar o download de músicas a partir de vídeos do YouTube.
 O programa está na sua inicial, então, muitos bugs e adaptações serão feitas no futuro. Espero contar com você, caro leitor, para contribuir com o desenvolvimento desta ferramenta.
-Para contribuições(dicas, relatos de bugs, feedback, etc) deixo o link do projeto [GitHub](https://github.com/viktorsht/enne).
 
 ## INSTALAÇÃO
 
