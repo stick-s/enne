@@ -8,22 +8,22 @@ class Download:
     def __init__(self,url):
         self.url = url
         self.video = pafy.new(self.url)
-        self.arquivomp3 = ''
+        self.arquivo_mp3 = ''
         self.pasta = ''
 
-    def GoDownload(self):
+    def go_download(self):
         video = self.video
         try:
             bestaudio = video.getbestaudio()
-            self.pasta = p.LocalParaSalvar()
-            self.arquivomp3 = self.pasta+"/"+str(video.title)+".mp3"
-            bestaudio.download(self.arquivomp3)
+            self.pasta = path.save_location()
+            self.arquivo_mp3 = self.pasta+"/"+str(video.title)+".mp3"
+            bestaudio.download(self.arquivo_mp3)
             print("Download realizado com sucesso!")
         except:
             print("ERRO! Download não realizado")
 
-class Verifica:
-    def validadeurl(self,link):
+class Validates:
+    def validates_url(self,link):
         if "https://www.youtube.com/" in link:
             return True
         else:
@@ -34,49 +34,49 @@ class Path:
     def __init__(self,url):
         self.url = url
         self.video = pafy.new(self.url)
-        self.PastaHome = os.path.expanduser("~")+"/"
-        self.NovaPasta = ''
+        self.home_folder = os.path.expanduser("~")+"/"
+        self.new_folder = ''
 
-    def ValidaPasta(self,pasta):
-        if os.path.exists(self.NovaPasta) == False:
-            print(f"{pasta} é um diretório inexistente")
-            pasta = input("Salvar em: ")
-            return pasta
+    def validates_folder(self,folder):
+        if os.path.exists(self.new_folder) == False:
+            print(f"{folder} é um diretório inexistente")
+            folder = input("Salvar em: ")
+            return folder
 
-    def LocalParaSalvar(self):
+    def save_location(self):
         local = input("Salvar em: ")
-        self.NovaPasta = str(self.PastaHome+local)
-        p.ValidaPasta(local)
-        return self.NovaPasta
+        self.new_folder = str(self.home_folder+local)
+        path.validates_folder(local)
+        return self.new_folder
 
 class DataBase:
     def __init__(self,url):
         self.url = url
         self.video = pafy.new(self.url)
-        self.linksbaixados = open("baixados.txt")
+        self.download_links = open("baixados.txt")
 
-    def BancoDeDownloads(self):
-        self.linksbaixados = open("baixados.txt","a")
-        self.linksbaixados.write("{}-{}\n".format(str(self.video.title),self.url))
-        self.linksbaixados.close()
+    def data_downloads(self):
+        self.download_links = open("baixados.txt","a")
+        self.download_links.write("{}-{}\n".format(str(self.video.title),self.url))
+        self.download_links.close()
 
-    def MostrarDados(self):
-        self.linksbaixados = open("baixados.txt")
-        bancodelinks = self.linksbaixados.read()
-        self.linksbaixados.close()
-        print(bancodelinks)
+    def show_data(self):
+        self.download_links = open("baixados.txt")
+        data_link = self.download_links.read()
+        self.download_links.close()
+        print(data_link)
 
-    def VerificaUrlBd(self):
+    def check_data_url(self):
         with open("baixados.txt") as f:
-            for verificar, linksbaixados in enumerate(f,1):
-                if self.url in linksbaixados:
+            for check, self.download_links in enumerate(f,1):
+                if self.url in self.download_links:
                     print("\nHá um download realizado de:\nNome: {}\nUrl: {}".format(self.video.title,self.url))
                     return True
             else:
                 return False
 
 class Operation:
-    def finalizar(self):
+    def finish(self):
         print("Fechando programa")
         for i in range(1,5):
             print('. .', end=' ', flush=True)
@@ -87,41 +87,41 @@ class Operation:
     def menuhelp(self):
         print("-b [Mostrar músicas baixadas]")
 
-    def repetir(self):
-        repetição = input("Repetir processo de download? [S/N]: ")
-        if repetição == ('n' or 'N'):
-            op.finalizar()
-        elif repetição == ('s' or 'S'):
+    def repeat(self):
+        repetition = input("Repetir processo de download? [S/N]: ")
+        if repetition == ('n' or 'N'):
+            op.finish()
+        elif repetition == ('s' or 'S'):
             link = input("Digite um link: ")
             return link
         else:
             print("Falha em verificação")
-            repetição = input("Repetir processo de download? [S/N]: ")
+            repetition = input("Repetir processo de download? [S/N]: ")
 
-op = Operation()
+operation = Operation()
 try:
     arg = sys.argv[1]
 
 except IndexError:
     print("Insira um link valido do YouTube como argumento.")
-    op.menuhelp()
-    op.finalizar()
+    operation.menuhelp()
+    operation.finish()
 
-v = Verifica()
+validates = Validates()
 
 if arg == '--help':
-    op.menuhelp()
-    op.finalizar()
+    operation.menuhelp()
+    operation.finish()
 
-elif v.validadeurl(arg) == True:
+elif validates.validates_url(arg) == True:
     while True:
-        d = Download(arg)
-        p = Path(arg)
-        db = DataBase(arg)
-        if db.VerificaUrlBd() == False:
-            d.GoDownload()
-            db.BancoDeDownloads()
-            op.repetir()
+        download = Download(arg)
+        path = Path(arg)
+        data = DataBase(arg)
+        if data.check_data_url() == False:
+            download.go_download()
+            data.data_downloads()
+            operation.repeat()
 
 else:
-    op.finalizar()
+    operation.finish()
